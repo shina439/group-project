@@ -125,6 +125,7 @@ justify-content: center;
     .box h1{
       font-size: 36px;
       text-align: center;
+      color: white;
 
     }
     .box .input-box{
@@ -149,6 +150,7 @@ justify-content: center;
     }
     .input-box input::placeholder{
       color: white;
+      
 
     }
     .remember-forgot{
