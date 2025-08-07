@@ -10,36 +10,46 @@
 </head>
 
 <body>
-  <div class="box">
-    <div class="classform">                     </div>
-      <h1>Login</h1>
-      <form action="home.html" method="post ">
-        <div class="input-box">
-          <input type="text" placeholder="username" required>
-          <i class='bxr  bxs-message-bubble-dots'></i>
-
-        </div>
-        <div class="input-box">
-          <input type="password" placeholder="password" required>
-        </div>
-        <div class="remember-forgot">
-          <label><input type="checkbox">Remember me</label>
-          <a href="#">Forgot password?</a>
-          <i class='bxr  bxs-lock'></i>
-        </div>
-
-        <button type="submite" class="btn">login</button>
+  <h1>Co-Working Space Time Tracker at the TIC FOUNDATION HUB</h1>
 
 
-            <div class="register-link">
-                <p>dont have an account? <a href="#">register now</a></p>
-            
-            </div>
+  <div class="hero">
+    <div id="currentShift">
+      <button id="checkInBtn">Check In</button>
+      <button id="checkOutBtn">Check Out</button>
+      <h2>Current Shift</h2>
+      <p>Start Time: <span id="startTime"></span></p>
+      <p>End Time: <span id="endTime"></span></p>
+      <p>Duration: <span id="duration"></span></p>
+      <div class="box">
+        <div class="classform"> </div>
+        <h1>Login</h1>
+        <form action="home.html" method="post ">
+          <div class="input-box">
+            <input type="text" placeholder="username" required>
+            <i class='bxr  bxs-message-bubble-dots'></i>
+
+          </div>
+          <div class="input-box">
+            <input type="password" placeholder="password" required>
+          </div>
+          <div class="remember-forgot">
+            <label><input type="checkbox">Remember me</label>
+            <a href="#">Forgot password?</a>
+            <i class='bxr  bxs-lock'></i>
+          </div>
+
+          <button type="submite" class="btn">login</button>
+
+
+          <div class="register-link">
+            <p>dont have an account? <a href="#">register now</a></p>
+
+          </div>
         </form>
+      </div>
 
     </div>
-
-  </div>
   </div>
 
 </body>
