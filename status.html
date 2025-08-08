@@ -1,130 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shift Status - Today's Summary</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #f9fafb;
-      color: #333;
-    }
-    h1 {
-      color: #2c3e50;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px 12px;
-      text-align: left;
-    }
-    th {
-      background-color: #2980b9;
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #e9f0f7;
-    }
-    .no-shifts, .access-denied {
-      text-align: center;
-      font-weight: 600;
-      font-size: 1.1rem;
-      margin-top: 30px;
-      color: #666;
-    }
-    a {
-      display: inline-block;
-      margin-bottom: 20px;
-      color: #2980b9;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Status Page</title>
+<style>
+    body { font-family: Arial, sans-serif; background: #eef1f5; padding: 20px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    th { background: #007bff; color: white; }
+</style>
 </head>
 <body>
-  <h1>Today's Shift Status</h1>
-  <a href="index.html" aria-label="Back to Shift Tracker">← Back to Shift Tracker</a>
+<h2>Daily Shift History</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Hours Worked</th>
+        </tr>
+    </thead>
+    <tbody id="shiftData"></tbody>
+</table>
 
-  <div id="content"></div>
+<script>
+if(localStorage.getItem("currentUser") !== "textuser") {
+    alert("Access denied");
+    window.location.href = "login.html";
+}
 
-  <script>
-    // Helper function: format ISO time string to human readable HH:MM:SS
-    function formatTime(isoString) {
-      if (!isoString) return "--:--:--";
-      return new Date(isoString).toLocaleTimeString();
-    }
+const today = new Date().toLocaleDateString();
+const shifts = JSON.parse(localStorage.getItem("shifts")) || [];
+const tbody = document.getElementById("shiftData");
 
-    // Helper function: calculate duration string (e.g., "2 hrs 15 mins")
-    function getDuration(start, end) {
-      if (!end) return "--";
-      const diffMs = new Date(end) - new Date(start);
-      const diffMins = Math.floor(diffMs / 60000);
-      const hours = Math.floor(diffMins / 60);
-      const mins = diffMins % 60;
-      return `${hours} hrs ${mins} mins`;
-    }
-
-    function loadTodayShifts() {
-      const contentDiv = document.getElementById('content');
-
-      // Check if logged in user is "textuser"
-      const loggedInUser = localStorage.getItem('loggedInUser') || sessionStorage.getItem('loggedInUser');
-
-      if (loggedInUser !== 'textuser') {
-        contentDiv.innerHTML = '<p class="access-denied">Access denied. Only user "textuser" can view this page.</p>';
-        return;
-      }
-
-      const todayKey = new Date().toISOString().split('T')[0];
-      const dailyShifts = JSON.parse(localStorage.getItem('dailyShifts')) || {};
-      const shifts = dailyShifts[todayKey] || [];
-
-      if (shifts.length === 0) {
-        contentDiv.innerHTML = `<p class="no-shifts">No shifts recorded for today yet.</p>`;
-        return;
-      }
-
-      let html = `<table role="table" aria-label="List of shifts today">
-        <thead>
-          <tr>
-            <th scope="col">User</th>
-            <th scope="col">Check In</th>
-            <th scope="col">Check Out</th>
-            <th scope="col">Duration</th>
-          </tr>
-        </thead>
-        <tbody>`;
-
-      shifts.forEach(shift => {
-        html += `<tr>
-          <td>${shift.user}</td>
-          <td>${formatTime(shift.start)}</td>
-          <td>${formatTime(shift.end)}</td>
-          <td>${getDuration(shift.start, shift.end)}</td>
-        </tr>`;
-      });
-
-      html += "</tbody></table>";
-
-      contentDiv.innerHTML = html;
-    }
-
-    window.onload = () => {
-      loadTodayShifts();
-    };
-  </script>
+shifts.filter(s => s.date === today).forEach(s => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${s.name}</td>
+        <td>${s.start ? new Date(s.start).toLocaleTimeString() : "-"}</td>
+        <td>${s.end ? new Date(s.end).toLocaleTimeString() : "-"}</td>
+        <td>${s.hours || "-"}</td>
+    `;
+    tbody.appendChild(row);
+});
+</script>
 </body>
 </html>
