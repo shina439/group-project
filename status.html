@@ -5,14 +5,67 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Status Page</title>
 <style>
-    body { font-family: Arial, sans-serif; background: #eef1f5; padding: 20px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
-    th { background: #007bff; color: white; }
+    body {
+        font-family: Arial, sans-serif;
+        background: #eef1f5;
+        padding: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+    th {
+        background: #007bff;
+        color: white;
+    }
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        text-align: center;
+    }
+    input {
+        padding: 10px;
+        margin: 10px 0;
+        width: 90%;
+    }
+    button {
+        padding: 10px;
+        width: 100%;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #0056b3;
+    }
 </style>
 </head>
 <body>
+
 <h2>Daily Shift History</h2>
+
 <table>
     <thead>
         <tr>
@@ -25,26 +78,54 @@
     <tbody id="shiftData"></tbody>
 </table>
 
-<script>
-if(localStorage.getItem("currentUser") !== "textuser") {
-    alert("Access denied");
-    window.location.href = "login.html";
-}
+<!-- Modal Login -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <h3>Enter Admin Password</h3>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button onclick="checkAdmin()">Login</button>
+    </div>
+</div>
 
+<script>
+const adminPassword = "1234"; // change this to your desired password
+const loginModal = document.getElementById("loginModal");
+const tbody = document.getElementById("shiftData");
 const today = new Date().toLocaleDateString();
 const shifts = JSON.parse(localStorage.getItem("shifts")) || [];
-const tbody = document.getElementById("shiftData");
 
-shifts.filter(s => s.date === today).forEach(s => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${s.name}</td>
-        <td>${s.start ? new Date(s.start).toLocaleTimeString() : "-"}</td>
-        <td>${s.end ? new Date(s.end).toLocaleTimeString() : "-"}</td>
-        <td>${s.hours || "-"}</td>
-    `;
-    tbody.appendChild(row);
-});
+// Show login modal if not already logged in as textuser
+if (localStorage.getItem("currentUser") !== "textuser") {
+    loginModal.style.display = "flex";
+} else {
+    loadShifts();
+}
+
+function checkAdmin() {
+    const pass = document.getElementById("adminPass").value;
+    if (pass === adminPassword) {
+        localStorage.setItem("currentUser", "textuser");
+        loginModal.style.display = "none";
+        loadShifts();
+    } else {
+        alert("Incorrect password!");
+    }
+}
+
+function loadShifts() {
+    tbody.innerHTML = "";
+    const todayShifts = shifts.filter(s => s.date === today);
+    todayShifts.forEach(s => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${s.name}</td>
+            <td>${s.start ? new Date(s.start).toLocaleTimeString() : "-"}</td>
+            <td>${s.end ? new Date(s.end).toLocaleTimeString() : "-"}</td>
+            <td>${s.hours || "-"}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
 </script>
 </body>
 </html>
