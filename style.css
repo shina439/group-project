@@ -190,3 +190,59 @@ blockquote {
     padding: 10px;
   }
 }
+
+  body {
+        font-family: Arial, sans-serif;
+        background: #eef1f5;
+        padding: 20px;
+        margin: 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    .table-container {
+        overflow-x: auto; /* Makes table scrollable on small screens */
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 400px;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    th {
+        background: #007bff;
+        color: white;
+    }
+
+    /* Responsive text and padding */
+    @media (max-width: 768px) {
+        th, td {
+            padding: 8px;
+            font-size: 13px;
+        }
+    }
+
+    @media (max-width: 500px) {
+        h2 {
+            font-size: 18px;
+        }
+        th, td {
+            padding: 6px;
+            font-size: 12px;
+        }
+    }
