@@ -1,44 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login page </title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Page</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
 </head>
 <body>
-    <div class="box">
-      <div class="classform">
-        <h1>Login</h1>
-        <form action="home.html" method="post ">
-            <div class="input-box">
-                <input type="text" placeholder="username" required >
-                <i class='bxr  bxs-message-bubble-dots'  ></i> 
-            
-            </div>
-            <div class="input-box">
-                <input type="password" placeholder="password" required>
-            </div>
-            <div class="remember-forgot">
-               <label><input type="checkbox">Remember me</label>
-               <a href="#">Forgot password?</a>
-               <i class='bxr  bxs-lock'  ></i> 
-            </div>
+  <div class="box">
+    <div class="classform">
+      <h1>Login</h1>
+      <form id="loginForm">
+        <div class="input-box">
+          <input type="text" id="username" placeholder="Username" required />
 
-            <button type="submite" class="btn">login</button>
-
-
-            <div class="register-link">
-                <p>dont have an account? <a href="#">register now</a></p>
-            
-            </div>
-        </form>
-
-      </div> 
-            
         </div>
-    </div>
 
+        <div class="input-box">
+          <input type="password" id="password" placeholder="Password" required />
+          
+        </div>
+
+        <div class="remember-forgot">
+          <label><input type="checkbox" id="rememberMe" /> Remember me</label>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+
+        <div class="register-link">
+          <p>
+            Don’t have an account?
+            <a href="#" id="registerLink">Register now</a>
+           
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Initialize with a default user if "users" array not set yet
+    if (!localStorage.getItem("users")) {
+      const defaultUsers = [{ username: "testuser", password: "12345" }];
+      localStorage.setItem("users", JSON.stringify(defaultUsers));
+    }
+
+    const form = document.getElementById("loginForm");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const rememberMe = document.getElementById("rememberMe").checked;
+
+      // Load users array from localStorage
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Find user with matching username & password
+      const user = users.find(
+        (u) => u.username === username && u.password === password
+      );
+
+      if (user) {
+        alert("Login successful!");
+
+        if (rememberMe) {
+          localStorage.setItem("loggedInUser", username);
+        } else {
+          sessionStorage.setItem("loggedInUser", username);
+        }
+
+        window.location.href = "home.html";
+      } else {
+        alert("Invalid username or password");
+      }
+    });
+
+    // Register new user
+    document.getElementById("registerLink").addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const newUsername = prompt("Enter new username:");
+      const newPassword = prompt("Enter new password:");
+
+      if (!newUsername || !newPassword) {
+        alert("Registration cancelled or invalid input.");
+        return;
+      }
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+
+      // Check if username exists
+      if (users.some((u) => u.username === newUsername)) {
+        alert("Username already exists. Please choose another.");
+        return;
+      }
+
+      users.push({ username: newUsername, password: newPassword });
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Account created! You can now log in.");
+    });
+  </script>
 </body>
 </html>

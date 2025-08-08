@@ -1,43 +1,367 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Co-Working Space Shift Tracker</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9fafb;
+      color: #333;
+      text-align: center;
+    }
 
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+
+    .btn-section {
+      margin-bottom: 25px;
+    }
+
+    button {
+      cursor: pointer;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 0.1);
+      margin: 0 10px;
+      min-width: 120px;
+    }
+
+    button:focus {
+      outline: 2px solid #2980b9;
+      outline-offset: 2px;
+    }
+
+    #checkInBtn {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    #checkInBtn:hover {
+      background-color: #219150;
+    }
+
+    #checkOutBtn {
+      background-color: #c0392b;
+      color: white;
+    }
+
+    #checkOutBtn:hover {
+      background-color: #962d22;
+    }
+
+    form {
+      background-color: white;
+      max-width: 400px;
+      margin: 20px auto 40px;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 0.1);
+      display: none;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      color: #34495e;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1.8px solid #ccc;
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease;
+    }
+
+    select:focus {
+      border-color: #2980b9;
+      outline: none;
+    }
+
+    .form-buttons {
+      text-align: right;
+    }
+
+    .form-buttons button {
+      margin-left: 12px;
+      min-width: 100px;
+      box-shadow: 0 3px 6px rgb(0 0 0 / 0.1);
+    }
+
+    .form-buttons button.cancel {
+      background-color: #bdc3c7;
+      color: #2c3e50;
+    }
+    .form-buttons button.cancel:hover {
+      background-color: #95a5a6;
+    }
+
+    .form-buttons button.submit {
+      background-color: #2980b9;
+      color: white;
+    }
+    .form-buttons button.submit:hover {
+      background-color: #1f6391;
+    }
+
+    #currentUserDisplay {
+      font-weight: 700;
+      color: #27ae60;
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      min-height: 1.5em;
+    }
+
+    h2 {
+      font-weight: 600;
+      color: #34495e;
+      margin-bottom: 10px;
+      margin-top: 40px;
+      border-bottom: 2px solid #2980b9;
+      padding-bottom: 6px;
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 6px 0;
+      color: #555;
+    }
+
+    span {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      body {
+        margin: 20px 15px;
+        padding: 15px;
+      }
+      button {
+        margin: 8px 5px;
+        min-width: 90px;
+        padding: 10px 14px;
+        font-size: 0.9rem;
+      }
+      form {
+        padding: 15px 18px;
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
-
 <body>
   <h1>Co-Working Space Time Tracker at the TIC FOUNDATION HUB class</h1>
+<div class="main">
+  <div class="btn-section">
+    <button id="checkInBtn" type="button">Check In</button>
+    <button id="checkOutBtn" type="button">Check Out</button>
+     <a href="status.html">View Status</a>
+  </div>
 
-  <div class = "container">
-   
-    <div id="currentShift">
-      <div class = "btn-section">
-       <button id="checkInBtn">Check In</button>
-    <button id="checkOutBtn">Check Out</button>
-     </div>
-      <h2>Current Shift</h2>
-      <p>Start Time: <span id="startTime"></span></p>
-      <p>End Time: <span id="endTime"></span></p>
-      <p>Duration: <span id="duration"></span></p>
+  <!-- Check In form -->
+  <form id="checkInForm" aria-label="Check In Form">
+    <label for="userSelectIn">Select Your Name to Check In:</label>
+    <select id="userSelectIn" name="username" required></select>
+    <div class="form-buttons">
+      <button type="button" class="cancel" id="cancelInBtn">Cancel</button>
+      <button type="submit" class="submit">Start Shift</button>
     </div>
-</div>
-    <!-- <div id="summary">
-    <h2>Today's Summary</h2>
-    <ul id="shiftList"></ul>
-    <p>Total Shifts: <span id="totalShifts">0</span></p>
-    <p>Total Time Worked: <span id="totalTime">0 hrs 0 mins</span></p>
-  
-  </div> -->
-  
+  </form>
 
-  <blockquote id="quote">""First, solve the problem. Then, write the code.""</blockquote>
-  <audio id="beepound" src="beep.mp3" preload="auto"></audio>
+  <!-- Check Out form -->
+  <form id="checkOutForm" aria-label="Check Out Form">
+    <label for="userSelectOut">Select Your Name to Check Out:</label>
+    <select id="userSelectOut" name="username" required></select>
+    <div class="form-buttons">
+      <button type="button" class="cancel" id="cancelOutBtn">Cancel</button>
+      <button type="submit" class="submit">End Shift</button>
+      
+    </div>
+  </form>
 
-  <script src="script.js"></script>
+  <div id="currentUserDisplay" aria-live="polite"></div>
+
+  <h2>Current Shift</h2>
+  <p>Start Time: <span id="startTime">--:--:--</span></p>
+  <p>End Time: <span id="endTime">--:--:--</span></p>
+  <p>Duration: <span id="duration">--</span></p>
+  </div>
+  <script>
+    const checkInBtn = document.getElementById("checkInBtn");
+    const checkOutBtn = document.getElementById("checkOutBtn");
+
+    const checkInForm = document.getElementById("checkInForm");
+    const userSelectIn = document.getElementById("userSelectIn");
+    const cancelInBtn = document.getElementById("cancelInBtn");
+
+    const checkOutForm = document.getElementById("checkOutForm");
+    const userSelectOut = document.getElementById("userSelectOut");
+    const cancelOutBtn = document.getElementById("cancelOutBtn");
+
+    const currentUserDisplay = document.getElementById("currentUserDisplay");
+    const startTimeEl = document.getElementById("startTime");
+    const endTimeEl = document.getElementById("endTime");
+    const durationEl = document.getElementById("duration");
+
+    let currentShift = null; // { user, start, end }
+
+    function loadUsersToSelect(selectElement) {
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+      selectElement.innerHTML = "";
+
+      if (users.length === 0) {
+        alert("No registered users found. Please register first.");
+        return false;
+      }
+
+      users.forEach(user => {
+        const option = document.createElement("option");
+        option.value = user.username;
+        option.textContent = user.username;
+        selectElement.appendChild(option);
+      });
+
+      return true;
+    }
+
+    function displayShift(shift) {
+      if (!shift) {
+        currentUserDisplay.textContent = "";
+        startTimeEl.textContent = "--:--:--";
+        endTimeEl.textContent = "--:--:--";
+        durationEl.textContent = "--";
+        return;
+      }
+      currentUserDisplay.textContent = `Current User: ${shift.user}`;
+      startTimeEl.textContent = new Date(shift.start).toLocaleTimeString();
+      if (shift.end) {
+        endTimeEl.textContent = new Date(shift.end).toLocaleTimeString();
+
+        const diffMs = new Date(shift.end) - new Date(shift.start);
+        const diffMins = Math.floor(diffMs / 60000);
+        const hours = Math.floor(diffMins / 60);
+        const mins = diffMins % 60;
+        durationEl.textContent = `${hours} hrs ${mins} mins`;
+      } else {
+        endTimeEl.textContent = "--:--:--";
+        durationEl.textContent = "--";
+      }
+    }
+
+    function loadCurrentShift() {
+      const savedShift = JSON.parse(localStorage.getItem("currentShift"));
+      currentShift = savedShift;
+      displayShift(currentShift);
+    }
+
+    function saveCurrentShift(shift) {
+      localStorage.setItem("currentShift", JSON.stringify(shift));
+      currentShift = shift;
+      displayShift(currentShift);
+    }
+
+    function clearCurrentShift() {
+      localStorage.removeItem("currentShift");
+      currentShift = null;
+      displayShift(null);
+    }
+
+    // Button handlers
+    checkInBtn.addEventListener("click", () => {
+      if (loadUsersToSelect(userSelectIn)) {
+        checkInForm.style.display = "block";
+        checkOutForm.style.display = "none";
+      }
+    });
+
+    checkOutBtn.addEventListener("click", () => {
+      if (loadUsersToSelect(userSelectOut)) {
+        checkOutForm.style.display = "block";
+        checkInForm.style.display = "none";
+      }
+    });
+
+    checkInForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const selectedUser = userSelectIn.value;
+      if (!selectedUser) {
+        alert("Please select your name to check in.");
+        return;
+      }
+
+      if (currentShift && !currentShift.end) {
+        alert(`User ${currentShift.user} already has an active shift.`);
+        checkInForm.style.display = "none";
+        return;
+      }
+
+      const shift = {
+        user: selectedUser,
+        start: new Date().toISOString(),
+        end: null,
+      };
+      saveCurrentShift(shift);
+      checkInForm.style.display = "none";
+    });
+
+    checkOutForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const selectedUser = userSelectOut.value;
+      if (!selectedUser) {
+        alert("Please select your name to check out.");
+        return;
+      }
+
+      if (!currentShift || currentShift.end) {
+        alert("No active shift found to check out.");
+        checkOutForm.style.display = "none";
+        return;
+      }
+
+      if (selectedUser !== currentShift.user) {
+        alert(`Selected user does not match current shift user: ${currentShift.user}`);
+        return;
+      }
+
+      currentShift.end = new Date().toISOString();
+      saveCurrentShift(currentShift);
+      checkOutForm.style.display = "none";
+    });
+
+    cancelInBtn.addEventListener("click", () => {
+      checkInForm.style.display = "none";
+    });
+
+    cancelOutBtn.addEventListener("click", () => {
+      checkOutForm.style.display = "none";
+    });
+
+    window.onload = () => {
+      loadCurrentShift();
+    };
+  </script>
 </body>
-
 </html>
